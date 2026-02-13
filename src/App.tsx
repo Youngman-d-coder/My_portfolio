@@ -1,42 +1,28 @@
-import React, { useState } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import Home from "./pages/HomePage/Home";
-import Footer from "./components/Footer";
-import About from "./pages/AboutPage/About";
-import Projects from "./pages/ProjectsPage/Projects";
-import Contact from "./pages/ContactPage/Contact";
-import Skills from "./pages/SkillsPage/Skills";
+import { AuthProvider } from "./context/AuthContext";
+import LandingPage from "./pages/LandingPage/Landing";
+import Login from "./pages/LoginPage/Login";
+import Register from "./pages/RegisterPage/Register";
+import Dashboard from "./pages/DashboardPage/Dashboard";
+import PortfolioList from "./pages/PortfolioListPage/PortfolioList";
+import UserPortfolio from "./pages/UserPortfolioPage/UserPortfolio";
+import EditPortfolio from "./pages/EditPortfolioPage/EditPortfolio";
 
 function App() {
-  const [isSidebarOpen, setSidebarOpen] = useState(false);
-
-  const toggleSidebar = () => {
-    setSidebarOpen(!isSidebarOpen);
-  };
-
   return (
     <Router>
-      <div className="flex flex-col h-screen">
-        {/* Fixed Navbar */}
-        <Navbar toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
-
-        {/* Scrollable Main Content */}
-        <div className="flex-grow overflow-auto">
-          <main className="p-4 h-full">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/skills" element={<Skills />} />
-              <Route path="/projects" element={<Projects />} />
-            </Routes>
-          </main>
-        </div>
-
-        {/* Fixed Footer */}
-        <Footer />
-      </div>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard/edit" element={<EditPortfolio />} />
+          <Route path="/explore" element={<PortfolioList />} />
+          <Route path="/portfolio/:username" element={<UserPortfolio />} />
+        </Routes>
+      </AuthProvider>
     </Router>
   );
 }
