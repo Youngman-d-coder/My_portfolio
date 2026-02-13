@@ -114,9 +114,8 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar, isSidebarOpen }) => {
       {/* Backdrop overlay for mobile menu */}
       {isSidebarOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden transition-opacity duration-300"
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden transition-opacity duration-300 top-16"
           onClick={toggleSidebar}
-          style={{ top: "4rem" }}
         />
       )}
     </>
