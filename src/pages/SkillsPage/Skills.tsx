@@ -20,7 +20,7 @@ const Skills = () => {
       icon: <FaReact className="text-blue-500" />,
     },
     {
-      name: "Tailwin CSS",
+      name: "Tailwind CSS",
       icon: <SiTailwindcss className="text-teal-500" />,
     },
     {
@@ -59,13 +59,13 @@ const Skills = () => {
     <section className="bg-blue-800 text-white p-6 mt-[60px] mb-[50px] flex flex-col items-center">
       <h1 className="text-3xl font-bold mb-8 text-center ">My Skills</h1>
       {/* Front-End */}
-      <div className="w-full max-x-4xl mb-12">
-        <h2>Front-End Development</h2>
-        <div className="grid grid-cols-2 gap-6">
+      <div className="w-full max-w-4xl mb-12">
+        <h2 className="text-2xl font-semibold mb-4 text-center">Front-End Development</h2>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
           {frontEndSkills.map((skill, index) => (
             <div
               key={index}
-              className="flrx flex-col items-center p-4 bg-white shadow-lg rounded-lg"
+              className="flex flex-col items-center p-4 bg-white shadow-lg rounded-lg"
             >
               <div className="text-4xl mb-4">{skill.icon}</div>
               <p className="text-lg font-semibold text-blue-800">
@@ -77,13 +77,13 @@ const Skills = () => {
       </div>
 
       {/* Back-End */}
-      <div className="w-full max-x-4xl mb-12">
-        <h2>Back-End Development</h2>
-        <div className="grid grid-cols-2 gap-6">
+      <div className="w-full max-w-4xl mb-12">
+        <h2 className="text-2xl font-semibold mb-4 text-center">Back-End Development</h2>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
           {backEndSkills.map((skill, index) => (
             <div
               key={index}
-              className="flrx flex-col items-center p-4 bg-white shadow-lg rounded-lg"
+              className="flex flex-col items-center p-4 bg-white shadow-lg rounded-lg"
             >
               <div className="text-4xl mb-4">{skill.icon}</div>
               <p className="text-lg font-semibold text-blue-800">

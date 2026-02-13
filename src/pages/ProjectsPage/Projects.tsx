@@ -4,26 +4,26 @@ const projects: any[] = [
   {
     title: "E-commerce Website",
     description:
-      "A full-stack e-commerce website built using react and tailwind css",
-    link: "https://github.com",
+      "A full-stack e-commerce platform with shopping cart, payment integration, and user authentication built using React and Tailwind CSS.",
+    link: "https://github.com/Youngman-d-coder",
   },
   {
-    title: "E-commerce Website",
+    title: "Portfolio Website",
     description:
-      "A full-stack e-commerce website built using react and tailwind css",
-    link: "https://github.com",
+      "Personal portfolio website showcasing projects and skills with responsive design using React and modern web technologies.",
+    link: "https://github.com/Youngman-d-coder",
   },
   {
-    title: "E-commerce Website",
+    title: "Task Management App",
     description:
-      "A full-stack e-commerce website built using react and tailwind css",
-    link: "https://github.com",
+      "A productivity application for managing tasks and projects with real-time updates, built with Node.js and MongoDB.",
+    link: "https://github.com/Youngman-d-coder",
   },
   {
-    title: "E-commerce Website",
+    title: "Weather Dashboard",
     description:
-      "A full-stack e-commerce website built using react and tailwind css",
-    link: "https://github.com",
+      "Interactive weather application displaying real-time weather data and forecasts using external APIs and React.",
+    link: "https://github.com/Youngman-d-coder",
   },
 ];
 
@@ -40,7 +40,7 @@ const Projects = () => {
             <h2 className="text-xl font-semibold mb-2">{project.title}</h2>
             <p className="mb-4">{project.description}</p>
             <a
-              href={project.linl}
+              href={project.link}
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-500 hover:underline"

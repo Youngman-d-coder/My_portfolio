@@ -7,8 +7,8 @@ const About = () => {
       <h1 className="text-3xl font-bold mb-4">About Me</h1>
       <p className="text-lg mb-4 text-left">
         Hello! I am Nelson Chimdiadi, a passionate developer with keen interest
-        in building web applications. I enjoy turningnideas into reality using
-        code and love to learn new technologies
+        in building web applications. I enjoy turning ideas into reality using
+        code and love to learn new technologies.
       </p>
       <h2 className="text-2xl font-semibold mb-2">
         <Link to="/skills" className="hover:text-blue-800 hover:bg-white">

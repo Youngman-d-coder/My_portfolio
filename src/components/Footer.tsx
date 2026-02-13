@@ -36,7 +36,7 @@ const Footer: React.FC = () => {
             </div>
           </div>
           {/* Copyright Section */}
-          <div>© 2024 Nelson Chimdiadi. All rights reserved.</div>
+          <div>© 2026 Nelson Chimdiadi. All rights reserved.</div>
         </div>
       </div>
     </footer>
