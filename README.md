@@ -1,46 +1,62 @@
-# Getting Started with Create React App
+# Multi-User Portfolio Platform
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern, full-stack web platform that enables developers, designers, and creators to create and showcase their professional portfolios.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+### For Users
+- **User Authentication**: Secure registration and login system with JWT tokens
+- **Personal Portfolio Creation**: Create and customize your own portfolio with:
+  - Personal information and bio
+  - Skills with proficiency levels
+  - Projects showcase with descriptions and links
+  - Work experience timeline
+  - Contact information and social links
+  - Customizable color themes
+- **Portfolio Management**: Easy-to-use dashboard for editing portfolio content
+- **Public/Private Profiles**: Control portfolio visibility
+- **Discovery**: Browse and search other users' portfolios
 
-### `npm start`
+### For Developers
+- **Full-Stack Architecture**: React frontend with Express.js/Node.js backend
+- **MongoDB Database**: Scalable NoSQL database for user and portfolio data
+- **RESTful API**: Well-structured API endpoints for all operations
+- **TypeScript Support**: Type-safe development experience
+- **Responsive Design**: Mobile-friendly UI with Tailwind CSS
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Getting Started
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Prerequisites
+- Node.js (v14 or higher)
+- MongoDB (local or Atlas)
+- npm or yarn
 
-### `npm test`
+### Installation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Clone the repository
+2. Install frontend dependencies: `npm install`
+3. Install backend dependencies: `cd backend && npm install`
+4. Set up environment variables (see .env.example files)
+5. Start MongoDB
+6. Start backend: `cd backend && npm run dev`
+7. Start frontend: `npm start`
 
-### `npm run build`
+The application will open at `http://localhost:3000`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## API Endpoints
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Authentication
+- `POST /api/auth/register` - Register new user
+- `POST /api/auth/login` - Login user
+- `GET /api/auth/profile` - Get current user (requires auth)
+- `PUT /api/auth/profile` - Update user profile (requires auth)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Portfolio
+- `GET /api/portfolio/all` - Get all public portfolios
+- `GET /api/portfolio/my` - Get current user's portfolio (requires auth)
+- `PUT /api/portfolio/my` - Update portfolio (requires auth)
+- `GET /api/portfolio/:username` - Get specific user's portfolio
 
-### `npm run eject`
+## License
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+MIT

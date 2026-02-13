@@ -6,6 +6,8 @@ import Login from "./pages/LoginPage/Login";
 import Register from "./pages/RegisterPage/Register";
 import Dashboard from "./pages/DashboardPage/Dashboard";
 import PortfolioList from "./pages/PortfolioListPage/PortfolioList";
+import UserPortfolio from "./pages/UserPortfolioPage/UserPortfolio";
+import EditPortfolio from "./pages/EditPortfolioPage/EditPortfolio";
 
 function App() {
   return (
@@ -16,7 +18,9 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard/edit" element={<EditPortfolio />} />
           <Route path="/explore" element={<PortfolioList />} />
+          <Route path="/portfolio/:username" element={<UserPortfolio />} />
         </Routes>
       </AuthProvider>
     </Router>
