@@ -58,48 +58,54 @@ const UserPortfolio: React.FC = () => {
   const primaryColor = portfolio.theme?.primaryColor || '#1e40af';
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50">
       {/* Hero Section */}
       <section 
-        className="relative py-16 sm:py-20 md:py-24 px-4 text-white shadow-2xl"
+        className="relative py-20 sm:py-24 md:py-28 px-4 text-white shadow-2xl overflow-hidden"
         style={{ 
           background: `linear-gradient(135deg, ${primaryColor} 0%, ${primaryColor}dd 100%)`,
         }}
       >
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="w-28 h-28 sm:w-32 sm:h-32 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-2xl transform hover:scale-110 transition-transform duration-300">
+        {/* Decorative elements */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full -mr-48 -mt-48"></div>
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full -ml-48 -mb-48"></div>
+        </div>
+        
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          <div className="w-32 h-32 sm:w-36 sm:h-36 bg-white rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl transform hover:scale-110 hover:rotate-3 transition-all duration-300 border-4 border-white border-opacity-50">
             {portfolio.user?.avatar ? (
               <img 
                 src={portfolio.user.avatar} 
                 alt={portfolio.user.displayName}
-                className="w-full h-full rounded-full object-cover"
+                className="w-full h-full rounded-3xl object-cover"
               />
             ) : (
-              <span className="text-5xl sm:text-6xl font-bold" style={{ color: primaryColor }}>
+              <span className="text-6xl sm:text-7xl font-bold" style={{ color: primaryColor }}>
                 {portfolio.user?.displayName.charAt(0).toUpperCase()}
               </span>
             )}
           </div>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 animate-fade-in">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-5 animate-fade-in">
             {portfolio.user?.displayName}
           </h1>
-          <p className="text-lg sm:text-xl md:text-2xl mb-2 font-medium">{portfolio.tagline}</p>
+          <p className="text-xl sm:text-2xl md:text-3xl mb-3 font-semibold">{portfolio.tagline}</p>
           {portfolio.user?.bio && (
-            <p className="text-base sm:text-lg opacity-90 mt-4 max-w-2xl mx-auto leading-relaxed">{portfolio.user.bio}</p>
+            <p className="text-base sm:text-lg md:text-xl opacity-95 mt-6 max-w-3xl mx-auto leading-relaxed px-4">{portfolio.user.bio}</p>
           )}
           
           {/* Social Links */}
           {portfolio.socialLinks && (
-            <div className="flex justify-center gap-3 sm:gap-4 mt-8">
+            <div className="flex justify-center gap-4 mt-10">
               {portfolio.socialLinks.github && (
                 <a 
                   href={portfolio.socialLinks.github} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="p-3 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full transition-all duration-300 transform hover:scale-110 shadow-lg"
+                  className="p-4 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-2xl transition-all duration-300 transform hover:scale-110 shadow-xl hover:shadow-2xl backdrop-blur-sm"
                   aria-label="GitHub"
                 >
-                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                   </svg>
                 </a>
@@ -109,10 +115,10 @@ const UserPortfolio: React.FC = () => {
                   href={portfolio.socialLinks.linkedin} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="p-3 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full transition-all duration-300 transform hover:scale-110 shadow-lg"
+                  className="p-4 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-2xl transition-all duration-300 transform hover:scale-110 shadow-xl hover:shadow-2xl backdrop-blur-sm"
                   aria-label="LinkedIn"
                 >
-                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                   </svg>
                 </a>
@@ -122,10 +128,10 @@ const UserPortfolio: React.FC = () => {
                   href={portfolio.socialLinks.twitter} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="p-3 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full transition-all duration-300 transform hover:scale-110 shadow-lg"
+                  className="p-4 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-2xl transition-all duration-300 transform hover:scale-110 shadow-xl hover:shadow-2xl backdrop-blur-sm"
                   aria-label="Twitter"
                 >
-                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
                   </svg>
                 </a>
@@ -152,17 +158,17 @@ const UserPortfolio: React.FC = () => {
 
       {/* Skills Section */}
       {portfolio.skills && portfolio.skills.length > 0 && (
-        <section className="py-12 sm:py-16 px-4 bg-white">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-8 flex items-center">
-              <span className="w-2 h-8 bg-blue-600 rounded-full mr-3"></span>
-              Skills
+        <section className="py-16 sm:py-20 px-4 bg-white">
+          <div className="max-w-5xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-10 flex items-center justify-center sm:justify-start">
+              <span className="w-2 h-10 bg-gradient-to-b from-blue-500 to-blue-600 rounded-full mr-4"></span>
+              Skills & Expertise
             </h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
               {portfolio.skills.map((skill, index) => (
-                <div key={index} className="p-4 sm:p-5 border-2 border-gray-100 rounded-xl text-center bg-gradient-to-br from-white to-gray-50 hover:border-blue-200 hover:shadow-md transition-all duration-300 transform hover:scale-105">
-                  <p className="font-bold text-gray-800 text-sm sm:text-base mb-1">{skill.name}</p>
-                  <p className="text-xs sm:text-sm text-blue-600 font-medium">{skill.level}</p>
+                <div key={index} className="group p-5 sm:p-6 border-2 border-gray-200 rounded-2xl text-center bg-gradient-to-br from-white to-gray-50 hover:from-blue-50 hover:to-indigo-50 hover:border-blue-300 hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                  <p className="font-bold text-gray-800 text-base sm:text-lg mb-2 group-hover:text-blue-600 transition-colors">{skill.name}</p>
+                  <p className="text-xs sm:text-sm text-blue-600 font-semibold bg-blue-100 px-3 py-1 rounded-full inline-block">{skill.level}</p>
                 </div>
               ))}
             </div>
@@ -172,24 +178,31 @@ const UserPortfolio: React.FC = () => {
 
       {/* Projects Section */}
       {portfolio.projects && portfolio.projects.length > 0 && (
-        <section className="py-12 sm:py-16 px-4">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-8 flex items-center">
-              <span className="w-2 h-8 bg-blue-600 rounded-full mr-3"></span>
-              Projects
+        <section className="py-16 sm:py-20 px-4">
+          <div className="max-w-5xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-10 flex items-center justify-center sm:justify-start">
+              <span className="w-2 h-10 bg-gradient-to-b from-blue-500 to-blue-600 rounded-full mr-4"></span>
+              Featured Projects
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
               {portfolio.projects.map((project, index) => (
-                <div key={index} className="bg-white border-2 border-gray-100 rounded-xl overflow-hidden shadow-md hover:shadow-2xl hover:border-blue-200 transition-all duration-300 transform hover:scale-[1.02] group">
-                  <div className="p-6">
-                    <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-3 group-hover:text-blue-600 transition-colors">{project.title}</h3>
-                    <p className="text-gray-600 mb-4 text-sm sm:text-base leading-relaxed">{project.description}</p>
+                <div key={index} className="group bg-white border-2 border-gray-200 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:border-blue-300 transition-all duration-300 transform hover:scale-[1.03]">
+                  <div className="p-7 sm:p-8">
+                    <div className="flex items-start justify-between mb-4">
+                      <h3 className="text-xl sm:text-2xl font-bold text-gray-800 group-hover:text-blue-600 transition-colors flex-1">{project.title}</h3>
+                      <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center ml-3 group-hover:scale-110 transition-transform shadow-md">
+                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                        </svg>
+                      </div>
+                    </div>
+                    <p className="text-gray-600 mb-5 text-sm sm:text-base leading-relaxed">{project.description}</p>
                     {project.technologies && project.technologies.length > 0 && (
-                      <div className="flex flex-wrap gap-2 mb-4">
+                      <div className="flex flex-wrap gap-2 mb-5">
                         {project.technologies.map((tech, techIndex) => (
                           <span 
                             key={techIndex}
-                            className="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-full border border-blue-100"
+                            className="px-3 py-1.5 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 text-xs font-bold rounded-lg border border-blue-200"
                           >
                             {tech}
                           </span>
@@ -201,10 +214,10 @@ const UserPortfolio: React.FC = () => {
                         href={project.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold text-sm sm:text-base group-hover:underline"
+                        className="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-sm rounded-xl hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all shadow-md hover:shadow-lg"
                       >
                         View Project 
-                        <svg className="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                         </svg>
                       </a>

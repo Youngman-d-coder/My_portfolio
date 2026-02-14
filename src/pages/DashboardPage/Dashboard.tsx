@@ -112,50 +112,80 @@ const Dashboard: React.FC = () => {
         {portfolio && (
           <div className="bg-white rounded-xl shadow-md p-6 sm:p-8 transform hover:shadow-lg transition-shadow duration-300">
             <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
-              <span className="w-2 h-8 bg-blue-600 rounded-full mr-3"></span>
+              <span className="w-2 h-8 bg-gradient-to-b from-blue-500 to-blue-600 rounded-full mr-3"></span>
               Portfolio Overview
             </h2>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div className="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200">
-                <h3 className="text-sm font-medium text-gray-500 mb-1 uppercase tracking-wide">Title</h3>
-                <p className="text-gray-800 font-semibold">{portfolio.title || 'Not set'}</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+              <div className="relative p-6 bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border-2 border-gray-100 hover:border-gray-200 hover:shadow-md transition-all duration-200 overflow-hidden group">
+                <div className="absolute top-0 right-0 w-20 h-20 bg-gray-200 rounded-full -mr-10 -mt-10 opacity-50 group-hover:scale-150 transition-transform duration-300"></div>
+                <h3 className="text-sm font-medium text-gray-500 mb-2 uppercase tracking-wide relative z-10">Title</h3>
+                <p className="text-gray-800 font-bold text-lg relative z-10">{portfolio.title || 'Not set'}</p>
               </div>
               
-              <div className="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200">
-                <h3 className="text-sm font-medium text-gray-500 mb-1 uppercase tracking-wide">Tagline</h3>
-                <p className="text-gray-800 font-semibold">{portfolio.tagline || 'Not set'}</p>
+              <div className="relative p-6 bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border-2 border-gray-100 hover:border-gray-200 hover:shadow-md transition-all duration-200 overflow-hidden group">
+                <div className="absolute top-0 right-0 w-20 h-20 bg-gray-200 rounded-full -mr-10 -mt-10 opacity-50 group-hover:scale-150 transition-transform duration-300"></div>
+                <h3 className="text-sm font-medium text-gray-500 mb-2 uppercase tracking-wide relative z-10">Tagline</h3>
+                <p className="text-gray-800 font-bold text-lg relative z-10 truncate">{portfolio.tagline || 'Not set'}</p>
               </div>
               
-              <div className="p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors duration-200">
-                <h3 className="text-sm font-medium text-blue-600 mb-1 uppercase tracking-wide">Skills</h3>
-                <p className="text-2xl font-bold text-blue-700">{portfolio.skills?.length || 0}</p>
-                <p className="text-sm text-blue-600 mt-1">skills added</p>
-              </div>
-              
-              <div className="p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors duration-200">
-                <h3 className="text-sm font-medium text-green-600 mb-1 uppercase tracking-wide">Projects</h3>
-                <p className="text-2xl font-bold text-green-700">{portfolio.projects?.length || 0}</p>
-                <p className="text-sm text-green-600 mt-1">projects showcased</p>
-              </div>
-              
-              <div className="p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors duration-200">
-                <h3 className="text-sm font-medium text-purple-600 mb-1 uppercase tracking-wide">Visibility</h3>
-                <div className="flex items-center">
-                  <span className={`w-3 h-3 rounded-full mr-2 ${portfolio.isPublic ? 'bg-green-500' : 'bg-gray-400'}`}></span>
-                  <p className="text-gray-800 font-semibold">{portfolio.isPublic ? 'Public' : 'Private'}</p>
+              <div className="relative p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl border-2 border-blue-200 hover:border-blue-300 hover:shadow-md transition-all duration-200 overflow-hidden group sm:col-span-2 lg:col-span-1">
+                <div className="absolute top-0 right-0 w-20 h-20 bg-blue-300 rounded-full -mr-10 -mt-10 opacity-30 group-hover:scale-150 transition-transform duration-300"></div>
+                <div className="flex items-center justify-between relative z-10">
+                  <div className="flex-1">
+                    <h3 className="text-sm font-medium text-blue-600 mb-1 uppercase tracking-wide">Skills</h3>
+                    <p className="text-3xl font-bold text-blue-700">{portfolio.skills?.length || 0}</p>
+                    <p className="text-sm text-blue-600 mt-1">skills added</p>
+                  </div>
+                  <div className="w-16 h-16 bg-blue-500 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                    </svg>
+                  </div>
                 </div>
               </div>
               
-              <div className="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200">
-                <h3 className="text-sm font-medium text-gray-500 mb-1 uppercase tracking-wide">Profile URL</h3>
+              <div className="relative p-6 bg-gradient-to-br from-green-50 to-green-100 rounded-xl border-2 border-green-200 hover:border-green-300 hover:shadow-md transition-all duration-200 overflow-hidden group">
+                <div className="absolute top-0 right-0 w-20 h-20 bg-green-300 rounded-full -mr-10 -mt-10 opacity-30 group-hover:scale-150 transition-transform duration-300"></div>
+                <div className="flex items-center justify-between relative z-10">
+                  <div className="flex-1">
+                    <h3 className="text-sm font-medium text-green-600 mb-1 uppercase tracking-wide">Projects</h3>
+                    <p className="text-3xl font-bold text-green-700">{portfolio.projects?.length || 0}</p>
+                    <p className="text-sm text-green-600 mt-1">showcased</p>
+                  </div>
+                  <div className="w-16 h-16 bg-green-500 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="relative p-6 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl border-2 border-purple-200 hover:border-purple-300 hover:shadow-md transition-all duration-200 overflow-hidden group">
+                <div className="absolute top-0 right-0 w-20 h-20 bg-purple-300 rounded-full -mr-10 -mt-10 opacity-30 group-hover:scale-150 transition-transform duration-300"></div>
+                <h3 className="text-sm font-medium text-purple-600 mb-3 uppercase tracking-wide relative z-10">Visibility</h3>
+                <div className="flex items-center relative z-10">
+                  <div className={`w-4 h-4 rounded-full mr-3 ${portfolio.isPublic ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}`}></div>
+                  <p className="text-gray-800 font-bold text-lg">{portfolio.isPublic ? 'Public' : 'Private'}</p>
+                </div>
+                <p className="text-sm text-purple-600 mt-2 relative z-10">
+                  {portfolio.isPublic ? 'Visible to everyone' : 'Only you can see this'}
+                </p>
+              </div>
+              
+              <div className="relative p-6 bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-xl border-2 border-indigo-200 hover:border-indigo-300 hover:shadow-md transition-all duration-200 overflow-hidden group">
+                <div className="absolute top-0 right-0 w-20 h-20 bg-indigo-300 rounded-full -mr-10 -mt-10 opacity-30 group-hover:scale-150 transition-transform duration-300"></div>
+                <h3 className="text-sm font-medium text-indigo-600 mb-3 uppercase tracking-wide relative z-10">Share Your Portfolio</h3>
                 <a 
                   href={`${window.location.origin}/portfolio/${user?.username}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 hover:text-blue-700 text-sm font-medium break-all underline"
+                  className="inline-flex items-center text-indigo-600 hover:text-indigo-700 text-sm font-bold group-hover:underline relative z-10"
                 >
-                  View portfolio →
+                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                  View portfolio
                 </a>
               </div>
             </div>
