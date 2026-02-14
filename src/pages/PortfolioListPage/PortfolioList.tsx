@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import { portfolioService, Portfolio } from '../../services/portfolioService';
+import SkeletonLoader from '../../components/SkeletonLoader';
+import AuthNavbar from '../../components/AuthNavbar';
 
 const PortfolioList: React.FC = () => {
+  const { user } = useAuth();
   const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -34,7 +38,9 @@ const PortfolioList: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 py-8 sm:py-12 px-4">
+    <>
+      {user && <AuthNavbar />}
+      <div className={`min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 py-8 sm:py-12 px-4 ${user ? 'pt-24' : ''}`}>
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-8 sm:mb-12">
           <div className="inline-block px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-opacity-10 backdrop-blur-sm rounded-full text-sm font-medium mb-4 border border-blue-200">
@@ -79,9 +85,8 @@ const PortfolioList: React.FC = () => {
 
         {/* Portfolio Grid */}
         {loading ? (
-          <div className="text-center py-16">
-            <div className="inline-block animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mb-4"></div>
-            <p className="text-gray-600 font-medium">Loading portfolios...</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <SkeletonLoader type="card" count={6} />
           </div>
         ) : portfolios.length === 0 ? (
           <div className="text-center py-16 bg-white rounded-2xl shadow-lg">
@@ -183,6 +188,7 @@ const PortfolioList: React.FC = () => {
         )}
       </div>
     </div>
+    </>
   );
 };
 

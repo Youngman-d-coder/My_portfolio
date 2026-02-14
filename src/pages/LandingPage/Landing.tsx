@@ -85,38 +85,54 @@ const LandingPage: React.FC = () => {
       </section>
 
       {/* Features Section */}
-      <section className="px-4 sm:px-6 py-16 md:py-20 bg-white">
+      <section className="px-4 sm:px-6 py-16 md:py-20 bg-gradient-to-b from-white to-gray-50">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-bold text-center text-gray-800 mb-12">
-            Why Choose Our Platform?
-          </h2>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+              Why Choose Our Platform?
+            </h2>
+            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+              Everything you need to create, manage, and showcase your professional work
+            </p>
+          </div>
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
-            <div className="text-center p-6 rounded-lg hover:bg-gray-50 transition-all duration-300 transform hover:scale-105">
-              <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
+            <div className="group relative bg-gradient-to-br from-blue-50 to-indigo-50 p-8 rounded-2xl border-2 border-blue-100 hover:border-blue-300 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400 to-indigo-400 rounded-full opacity-10 -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500"></div>
+              <div className="relative z-10">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mb-5 shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-300">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-gray-800 group-hover:text-blue-700 transition-colors">Lightning Fast</h3>
+                <p className="text-gray-600 leading-relaxed">Create your portfolio in minutes with our intuitive builder</p>
               </div>
-              <h3 className="text-xl font-semibold mb-2 text-gray-800">Lightning Fast</h3>
-              <p className="text-gray-600 leading-relaxed">Create your portfolio in minutes with our intuitive builder</p>
             </div>
-            <div className="text-center p-6 rounded-lg hover:bg-gray-50 transition-all duration-300 transform hover:scale-105">
-              <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-                </svg>
+            
+            <div className="group relative bg-gradient-to-br from-purple-50 to-pink-50 p-8 rounded-2xl border-2 border-purple-100 hover:border-purple-300 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full opacity-10 -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500"></div>
+              <div className="relative z-10">
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center mb-5 shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-300">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-gray-800 group-hover:text-purple-700 transition-colors">Fully Customizable</h3>
+                <p className="text-gray-600 leading-relaxed">Personalize every aspect to match your unique style</p>
               </div>
-              <h3 className="text-xl font-semibold mb-2 text-gray-800">Fully Customizable</h3>
-              <p className="text-gray-600 leading-relaxed">Personalize every aspect to match your unique style</p>
             </div>
-            <div className="text-center p-6 rounded-lg hover:bg-gray-50 transition-all duration-300 transform hover:scale-105 sm:col-span-2 md:col-span-1">
-              <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9 3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-                </svg>
+            
+            <div className="group relative bg-gradient-to-br from-green-50 to-teal-50 p-8 rounded-2xl border-2 border-green-100 hover:border-green-300 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl overflow-hidden sm:col-span-2 md:col-span-1">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-400 to-teal-400 rounded-full opacity-10 -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500"></div>
+              <div className="relative z-10">
+                <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-teal-600 rounded-2xl flex items-center justify-center mb-5 shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-300">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9 3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-gray-800 group-hover:text-green-700 transition-colors">Share Anywhere</h3>
+                <p className="text-gray-600 leading-relaxed">Get a unique URL to share your work with the world</p>
               </div>
-              <h3 className="text-xl font-semibold mb-2 text-gray-800">Share Anywhere</h3>
-              <p className="text-gray-600 leading-relaxed">Get a unique URL to share your work with the world</p>
             </div>
           </div>
         </div>

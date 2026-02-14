@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useToast } from '../../context/ToastContext';
+import PasswordStrength from '../../components/PasswordStrength';
 
 const Register: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +15,7 @@ const Register: React.FC = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { register } = useAuth();
+  const { showToast } = useToast();
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,9 +48,12 @@ const Register: React.FC = () => {
 
     try {
       await register(formData.username, formData.email, formData.password, formData.displayName);
+      showToast('Account created successfully! Welcome aboard!', 'success');
       navigate('/dashboard');
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Registration failed. Please try again.');
+      const errorMessage = err.response?.data?.message || 'Registration failed. Please try again.';
+      setError(errorMessage);
+      showToast(errorMessage, 'error');
     } finally {
       setLoading(false);
     }
@@ -155,18 +161,7 @@ const Register: React.FC = () => {
               placeholder="••••••••"
               required
             />
-            {formData.password && (
-              <div className="mt-2">
-                <div className="flex items-center text-xs">
-                  <div className={`h-1 flex-1 rounded mr-1 ${formData.password.length >= 6 ? 'bg-green-500' : 'bg-gray-300'}`}></div>
-                  <div className={`h-1 flex-1 rounded mr-1 ${formData.password.length >= 8 ? 'bg-green-500' : 'bg-gray-300'}`}></div>
-                  <div className={`h-1 flex-1 rounded ${formData.password.length >= 12 ? 'bg-green-500' : 'bg-gray-300'}`}></div>
-                </div>
-                <p className={`mt-1 text-xs ${formData.password.length >= 6 ? 'text-green-600' : 'text-gray-500'}`}>
-                  {formData.password.length >= 6 ? '✓ Strong password' : 'At least 6 characters'}
-                </p>
-              </div>
-            )}
+            <PasswordStrength password={formData.password} />
           </div>
 
           <div>
