@@ -1,14 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useToast } from '../../context/ToastContext';
 import { portfolioService, Portfolio, Skill, Project } from '../../services/portfolioService';
+import SkeletonLoader from '../../components/SkeletonLoader';
+import AuthNavbar from '../../components/AuthNavbar';
 
 const EditPortfolio: React.FC = () => {
   const { user } = useAuth();
+  const { showToast } = useToast();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [autoSaving, setAutoSaving] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
+  const [hasChanges, setHasChanges] = useState(false);
   
   const [portfolio, setPortfolio] = useState<Partial<Portfolio>>({
     title: '',
@@ -22,22 +28,51 @@ const EditPortfolio: React.FC = () => {
     isPublic: true
   });
 
+  const fetchPortfolio = useCallback(async () => {
+    try {
+      const data = await portfolioService.getMyPortfolio();
+      setPortfolio(data);
+      setHasChanges(false);
+    } catch (error) {
+      console.error('Error fetching portfolio:', error);
+      showToast('Failed to load portfolio', 'error');
+    } finally {
+      setLoading(false);
+    }
+  }, [showToast]);
+
   useEffect(() => {
     if (!user) {
       navigate('/login');
       return;
     }
     fetchPortfolio();
-  }, [user, navigate]);
+  }, [user, navigate, fetchPortfolio]);
 
-  const fetchPortfolio = async () => {
+  // Auto-save functionality
+  useEffect(() => {
+    if (!hasChanges) return;
+
+    const autoSaveTimer = setTimeout(() => {
+      handleAutoSave();
+    }, 3000);
+
+    return () => clearTimeout(autoSaveTimer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [portfolio, hasChanges]);
+
+  const handleAutoSave = async () => {
+    if (autoSaving || saving) return;
+    
+    setAutoSaving(true);
     try {
-      const data = await portfolioService.getMyPortfolio();
-      setPortfolio(data);
-    } catch (error) {
-      console.error('Error fetching portfolio:', error);
+      await portfolioService.updatePortfolio(portfolio);
+      setHasChanges(false);
+      showToast('Changes saved automatically', 'success');
+    } catch (error: any) {
+      console.error('Auto-save failed:', error);
     } finally {
-      setLoading(false);
+      setAutoSaving(false);
     }
   };
 
@@ -49,12 +84,13 @@ const EditPortfolio: React.FC = () => {
     try {
       await portfolioService.updatePortfolio(portfolio);
       setMessage({ type: 'success', text: 'Portfolio updated successfully!' });
+      setHasChanges(false);
+      showToast('Portfolio saved successfully!', 'success');
       setTimeout(() => navigate('/dashboard'), 1500);
     } catch (error: any) {
-      setMessage({ 
-        type: 'error', 
-        text: error.response?.data?.message || 'Failed to update portfolio' 
-      });
+      const errorMsg = error.response?.data?.message || 'Failed to update portfolio';
+      setMessage({ type: 'error', text: errorMsg });
+      showToast(errorMsg, 'error');
     } finally {
       setSaving(false);
     }
@@ -65,18 +101,21 @@ const EditPortfolio: React.FC = () => {
       ...portfolio,
       skills: [...(portfolio.skills || []), { name: '', level: 'Intermediate' as const }]
     });
+    setHasChanges(true);
   };
 
   const removeSkill = (index: number) => {
     const newSkills = [...(portfolio.skills || [])];
     newSkills.splice(index, 1);
     setPortfolio({ ...portfolio, skills: newSkills });
+    setHasChanges(true);
   };
 
   const updateSkill = (index: number, field: keyof Skill, value: string) => {
     const newSkills = [...(portfolio.skills || [])];
     newSkills[index] = { ...newSkills[index], [field]: value };
     setPortfolio({ ...portfolio, skills: newSkills });
+    setHasChanges(true);
   };
 
   const addProject = () => {
@@ -90,42 +129,87 @@ const EditPortfolio: React.FC = () => {
         featured: false 
       }]
     });
+    setHasChanges(true);
   };
 
   const removeProject = (index: number) => {
     const newProjects = [...(portfolio.projects || [])];
     newProjects.splice(index, 1);
     setPortfolio({ ...portfolio, projects: newProjects });
+    setHasChanges(true);
   };
 
   const updateProject = (index: number, field: keyof Project, value: any) => {
     const newProjects = [...(portfolio.projects || [])];
     newProjects[index] = { ...newProjects[index], [field]: value };
     setPortfolio({ ...portfolio, projects: newProjects });
+    setHasChanges(true);
   };
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600 font-medium">Loading your portfolio...</p>
+      <>
+        <AuthNavbar />
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-6 sm:py-8 px-4 pt-24">
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-white rounded-xl shadow-md p-6 sm:p-8 mb-6 animate-pulse">
+              <div className="h-10 bg-gray-300 rounded w-1/2 mb-2 animate-shimmer"></div>
+              <div className="h-6 bg-gray-200 rounded w-1/3 animate-shimmer"></div>
+            </div>
+            <div className="space-y-6">
+              <SkeletonLoader type="card" count={3} />
+            </div>
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-6 sm:py-8 px-4">
+    <>
+      <AuthNavbar />
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-6 sm:py-8 px-4 pt-24">
       <div className="max-w-4xl mx-auto">
         <div className="bg-white rounded-xl shadow-md p-6 sm:p-8 mb-6 transform hover:shadow-lg transition-shadow duration-300">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-2 flex items-center">
-            <svg className="w-7 h-7 sm:w-8 sm:h-8 mr-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-            </svg>
-            Edit Portfolio
-          </h1>
-          <p className="text-gray-600">Customize your portfolio to showcase your work</p>
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div className="flex-1">
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-2 flex items-center">
+                <svg className="w-7 h-7 sm:w-8 sm:h-8 mr-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+                Edit Portfolio
+              </h1>
+              <p className="text-gray-600">Customize your portfolio to showcase your work</p>
+            </div>
+            {/* Auto-save indicator */}
+            <div className="flex items-center space-x-2">
+              {autoSaving && (
+                <div className="flex items-center text-blue-600 text-sm font-medium">
+                  <svg className="animate-spin h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Saving...
+                </div>
+              )}
+              {hasChanges && !autoSaving && (
+                <div className="flex items-center text-amber-600 text-sm font-medium">
+                  <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+                  </svg>
+                  Unsaved changes
+                </div>
+              )}
+              {!hasChanges && !autoSaving && !loading && (
+                <div className="flex items-center text-green-600 text-sm font-medium">
+                  <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  All changes saved
+                </div>
+              )}
+            </div>
+          </div>
         </div>
 
         {message.text && (
@@ -165,7 +249,10 @@ const EditPortfolio: React.FC = () => {
                 <input
                   type="text"
                   value={portfolio.title || ''}
-                  onChange={(e) => setPortfolio({ ...portfolio, title: e.target.value })}
+                  onChange={(e) => {
+                    setPortfolio({ ...portfolio, title: e.target.value });
+                    setHasChanges(true);
+                  }}
                   className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none"
                   placeholder="My Portfolio"
                 />
@@ -178,7 +265,10 @@ const EditPortfolio: React.FC = () => {
                 <input
                   type="text"
                   value={portfolio.tagline || ''}
-                  onChange={(e) => setPortfolio({ ...portfolio, tagline: e.target.value })}
+                  onChange={(e) => {
+                    setPortfolio({ ...portfolio, tagline: e.target.value });
+                    setHasChanges(true);
+                  }}
                   className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none"
                   placeholder="Full Stack Developer"
                 />
@@ -190,7 +280,10 @@ const EditPortfolio: React.FC = () => {
                 </label>
                 <textarea
                   value={portfolio.about || ''}
-                  onChange={(e) => setPortfolio({ ...portfolio, about: e.target.value })}
+                  onChange={(e) => {
+                    setPortfolio({ ...portfolio, about: e.target.value });
+                    setHasChanges(true);
+                  }}
                   rows={4}
                   className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none resize-none"
                   placeholder="Tell us about yourself..."
@@ -509,6 +602,7 @@ const EditPortfolio: React.FC = () => {
         </form>
       </div>
     </div>
+    </>
   );
 };
 

@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import { portfolioService, Portfolio } from '../../services/portfolioService';
 import SkeletonLoader from '../../components/SkeletonLoader';
+import AuthNavbar from '../../components/AuthNavbar';
 
 const PortfolioList: React.FC = () => {
+  const { user } = useAuth();
   const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -35,7 +38,9 @@ const PortfolioList: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 py-8 sm:py-12 px-4">
+    <>
+      {user && <AuthNavbar />}
+      <div className={`min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 py-8 sm:py-12 px-4 ${user ? 'pt-24' : ''}`}>
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-8 sm:mb-12">
           <div className="inline-block px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-opacity-10 backdrop-blur-sm rounded-full text-sm font-medium mb-4 border border-blue-200">
@@ -183,6 +188,7 @@ const PortfolioList: React.FC = () => {
         )}
       </div>
     </div>
+    </>
   );
 };
 
