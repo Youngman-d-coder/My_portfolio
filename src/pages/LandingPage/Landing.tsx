@@ -60,6 +60,30 @@ const LandingPage: React.FC = () => {
         </div>
       </section>
 
+      {/* Stats Section */}
+      <section className="px-4 sm:px-6 py-12 bg-white bg-opacity-95 backdrop-blur-sm">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+            <div className="text-center">
+              <div className="text-3xl sm:text-4xl font-bold text-blue-600 mb-2">10K+</div>
+              <div className="text-gray-600 text-sm sm:text-base">Active Users</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl sm:text-4xl font-bold text-blue-600 mb-2">50K+</div>
+              <div className="text-gray-600 text-sm sm:text-base">Portfolios Created</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl sm:text-4xl font-bold text-blue-600 mb-2">100K+</div>
+              <div className="text-gray-600 text-sm sm:text-base">Projects Showcased</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl sm:text-4xl font-bold text-blue-600 mb-2">99%</div>
+              <div className="text-gray-600 text-sm sm:text-base">Satisfaction Rate</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Features Section */}
       <section className="px-4 sm:px-6 py-16 md:py-20 bg-white">
         <div className="max-w-6xl mx-auto">
