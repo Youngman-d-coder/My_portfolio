@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback, useRef } from 'react';
 
 interface Toast {
   id: string;
@@ -16,13 +16,15 @@ const ToastContext = createContext<ToastContextType | undefined>(undefined);
 
 export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [toasts, setToasts] = useState<Toast[]>([]);
+  const idCounterRef = useRef(0);
 
   const hideToast = useCallback((id: string) => {
     setToasts((prev) => prev.filter((toast) => toast.id !== id));
   }, []);
 
   const showToast = useCallback((message: string, type: Toast['type'] = 'info') => {
-    const id = Date.now().toString();
+    idCounterRef.current += 1;
+    const id = `${Date.now()}-${idCounterRef.current}`;
     setToasts((prev) => [...prev, { id, message, type }]);
     
     setTimeout(() => {

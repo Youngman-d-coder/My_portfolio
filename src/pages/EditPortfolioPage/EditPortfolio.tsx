@@ -50,18 +50,7 @@ const EditPortfolio: React.FC = () => {
   }, [user, navigate, fetchPortfolio]);
 
   // Auto-save functionality
-  useEffect(() => {
-    if (!hasChanges) return;
-
-    const autoSaveTimer = setTimeout(() => {
-      handleAutoSave();
-    }, 3000);
-
-    return () => clearTimeout(autoSaveTimer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [portfolio, hasChanges]);
-
-  const handleAutoSave = async () => {
+  const handleAutoSave = useCallback(async () => {
     if (autoSaving || saving) return;
     
     setAutoSaving(true);
@@ -74,7 +63,17 @@ const EditPortfolio: React.FC = () => {
     } finally {
       setAutoSaving(false);
     }
-  };
+  }, [autoSaving, saving, portfolio, showToast]);
+
+  useEffect(() => {
+    if (!hasChanges) return;
+
+    const autoSaveTimer = setTimeout(() => {
+      handleAutoSave();
+    }, 3000);
+
+    return () => clearTimeout(autoSaveTimer);
+  }, [hasChanges, handleAutoSave]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
