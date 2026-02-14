@@ -6,6 +6,8 @@ export interface Portfolio {
   title: string;
   tagline: string;
   about: string;
+  avatar?: string;
+  bannerImage?: string;
   skills: Skill[];
   projects: Project[];
   experience: Experience[];
@@ -25,14 +27,19 @@ export interface Portfolio {
 export interface Skill {
   name: string;
   level: 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert';
+  category?: string;
 }
 
 export interface Project {
-  title: string;
+  name?: string;
+  title?: string;
   description: string;
-  link: string;
+  link?: string;
   image?: string;
+  images?: string[];
   technologies: string[];
+  githubUrl?: string;
+  liveUrl?: string;
   featured?: boolean;
 }
 
@@ -73,6 +80,8 @@ export interface SocialLinks {
 export interface Theme {
   primaryColor: string;
   secondaryColor: string;
+  accentColor?: string;
+  fontFamily?: string;
 }
 
 export const portfolioService = {
