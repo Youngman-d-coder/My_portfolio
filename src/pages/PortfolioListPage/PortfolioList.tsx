@@ -105,7 +105,6 @@ const PortfolioList: React.FC = () => {
                       <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center text-white font-bold text-2xl shadow-lg group-hover:shadow-xl transition-all duration-300">
                         {portfolio.user?.displayName.charAt(0).toUpperCase()}
                       </div>
-                      <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-4 border-white"></div>
                     </div>
                     <div className="ml-4 flex-1 min-w-0">
                       <h3 className="text-lg font-bold text-gray-800 group-hover:text-blue-600 transition-colors truncate">

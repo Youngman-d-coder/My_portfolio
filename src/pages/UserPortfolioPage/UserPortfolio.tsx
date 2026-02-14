@@ -73,7 +73,7 @@ const UserPortfolio: React.FC = () => {
         </div>
         
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <div className="w-32 h-32 sm:w-36 sm:h-36 bg-white rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl transform hover:scale-110 hover:rotate-3 transition-all duration-300 border-4 border-white border-opacity-50">
+          <div className="w-32 h-32 sm:w-36 sm:h-36 bg-white rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl transform hover:scale-110 hover:rotate-3 transition-all duration-300 border-4 border-white">
             {portfolio.user?.avatar ? (
               <img 
                 src={portfolio.user.avatar} 

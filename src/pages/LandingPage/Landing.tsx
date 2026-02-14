@@ -60,7 +60,7 @@ const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Stats Section */}
+      {/* Stats Section - Placeholder values for demonstration */}
       <section className="px-4 sm:px-6 py-12 bg-white bg-opacity-95 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
