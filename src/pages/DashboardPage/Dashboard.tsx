@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useToast } from '../../context/ToastContext';
 import { portfolioService, Portfolio } from '../../services/portfolioService';
+import SkeletonLoader from '../../components/SkeletonLoader';
 
 const Dashboard: React.FC = () => {
   const { user, logout } = useAuth();
+  const { showToast } = useToast();
   const [portfolio, setPortfolio] = useState<Portfolio | null>(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -30,15 +33,27 @@ const Dashboard: React.FC = () => {
 
   const handleLogout = () => {
     logout();
+    showToast('Logged out successfully!', 'success');
     navigate('/');
   };
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600 font-medium">Loading your dashboard...</p>
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-6 sm:py-8 px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="bg-white rounded-xl shadow-md p-6 sm:p-8 mb-6 animate-pulse">
+            <div className="h-10 bg-gray-300 rounded w-1/2 mb-2 animate-shimmer"></div>
+            <div className="h-6 bg-gray-200 rounded w-1/3 animate-shimmer"></div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6">
+            <SkeletonLoader type="stat" count={3} />
+          </div>
+          <div className="bg-white rounded-xl shadow-md p-6 sm:p-8">
+            <div className="h-8 bg-gray-300 rounded w-1/3 mb-6 animate-shimmer"></div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+              <SkeletonLoader type="stat" count={6} />
+            </div>
+          </div>
         </div>
       </div>
     );

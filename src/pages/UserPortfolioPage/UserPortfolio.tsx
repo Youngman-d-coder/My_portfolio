@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { portfolioService, Portfolio } from '../../services/portfolioService';
+import SkeletonLoader from '../../components/SkeletonLoader';
 
 const UserPortfolio: React.FC = () => {
   const { username } = useParams<{ username: string }>();
@@ -29,10 +30,17 @@ const UserPortfolio: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600 font-medium">Loading portfolio...</p>
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 py-8 px-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-8">
+            <SkeletonLoader type="avatar" count={1} />
+            <div className="mt-8 space-y-4 max-w-xl mx-auto">
+              <SkeletonLoader type="text" count={1} />
+            </div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-12">
+            <SkeletonLoader type="stat" count={4} />
+          </div>
         </div>
       </div>
     );
