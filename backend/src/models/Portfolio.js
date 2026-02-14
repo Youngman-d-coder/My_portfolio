@@ -18,20 +18,33 @@ const portfolioSchema = new mongoose.Schema({
     type: String,
     default: ''
   },
+  avatar: {
+    type: String,
+    default: ''
+  },
+  bannerImage: {
+    type: String,
+    default: ''
+  },
   skills: [{
     name: String,
     level: {
       type: String,
       enum: ['Beginner', 'Intermediate', 'Advanced', 'Expert'],
       default: 'Intermediate'
-    }
+    },
+    category: String
   }],
   projects: [{
+    name: String,
     title: String,
     description: String,
     link: String,
     image: String,
+    images: [String],
     technologies: [String],
+    githubUrl: String,
+    liveUrl: String,
     featured: {
       type: Boolean,
       default: false
@@ -75,6 +88,14 @@ const portfolioSchema = new mongoose.Schema({
     secondaryColor: {
       type: String,
       default: '#ffffff'
+    },
+    accentColor: {
+      type: String,
+      default: '#3b82f6'
+    },
+    fontFamily: {
+      type: String,
+      default: 'Inter, sans-serif'
     }
   },
   isPublic: {

@@ -67,25 +67,35 @@ const UserPortfolio: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50">
-      {/* Hero Section */}
+      {/* Hero Section with Banner */}
       <section 
         className="relative py-20 sm:py-24 md:py-28 px-4 text-white shadow-2xl overflow-hidden"
         style={{ 
-          background: `linear-gradient(135deg, ${primaryColor} 0%, ${primaryColor}dd 100%)`,
+          background: portfolio.bannerImage 
+            ? `url(${portfolio.bannerImage}) center/cover no-repeat`
+            : `linear-gradient(135deg, ${primaryColor} 0%, ${primaryColor}dd 100%)`,
         }}
       >
-        {/* Decorative elements */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full -mr-48 -mt-48"></div>
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full -ml-48 -mb-48"></div>
-        </div>
+        {/* Dark overlay for banner images to ensure text readability */}
+        {portfolio.bannerImage && (
+          <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+        )}
+        
+        {/* Decorative elements (only show if no banner) */}
+        {!portfolio.bannerImage && (
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full -mr-48 -mt-48"></div>
+            <div className="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full -ml-48 -mb-48"></div>
+          </div>
+        )}
         
         <div className="max-w-4xl mx-auto text-center relative z-10">
+          {/* Avatar - Use portfolio.avatar first, then fall back to user.avatar */}
           <div className="w-32 h-32 sm:w-36 sm:h-36 bg-white rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl transform hover:scale-110 hover:rotate-3 transition-all duration-300 border-4 border-white border-opacity-50">
-            {portfolio.user?.avatar ? (
+            {(portfolio.avatar || portfolio.user?.avatar) ? (
               <img 
-                src={portfolio.user.avatar} 
-                alt={portfolio.user.displayName}
+                src={portfolio.avatar || portfolio.user?.avatar} 
+                alt={portfolio.user?.displayName}
                 className="w-full h-full rounded-3xl object-cover"
               />
             ) : (
