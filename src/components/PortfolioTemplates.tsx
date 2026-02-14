@@ -15,7 +15,7 @@ export interface PortfolioTemplate {
   defaultContent: Partial<Portfolio>;
 }
 
-export const portfolioTemplates: PortfolioTemplate[] = [
+export const portfolioTemplates: readonly PortfolioTemplate[] = [
   {
     id: 'minimal',
     name: 'Minimal Professional',

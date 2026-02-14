@@ -2,16 +2,23 @@ const multer = require('multer');
 const cloudinary = require('cloudinary').v2;
 
 // Configure Cloudinary (will use environment variables)
+const isProduction = process.env.NODE_ENV === 'production';
+
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME || 'demo',
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME || '',
   api_key: process.env.CLOUDINARY_API_KEY || '',
   api_secret: process.env.CLOUDINARY_API_SECRET || '',
 });
 
-// Use memory storage for local development when Cloudinary is not configured
+// Check if Cloudinary is properly configured
 const useCloudinary = process.env.CLOUDINARY_CLOUD_NAME && 
                        process.env.CLOUDINARY_API_KEY && 
                        process.env.CLOUDINARY_API_SECRET;
+
+// Log warning in production if Cloudinary is not configured
+if (isProduction && !useCloudinary) {
+  console.warn('WARNING: Cloudinary is not configured in production. Image uploads will use base64 encoding which is not recommended for production.');
+}
 
 // Use memory storage
 const storage = multer.memoryStorage();
@@ -112,4 +119,4 @@ exports.uploadImages = async (req, res) => {
   }
 };
 
-module.exports = { upload };
+module.exports = { upload, uploadImage: exports.uploadImage, uploadImages: exports.uploadImages };
