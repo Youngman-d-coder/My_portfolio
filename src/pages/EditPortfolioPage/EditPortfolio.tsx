@@ -5,6 +5,10 @@ import { useToast } from '../../context/ToastContext';
 import { portfolioService, Portfolio, Skill, Project } from '../../services/portfolioService';
 import SkeletonLoader from '../../components/SkeletonLoader';
 import AuthNavbar from '../../components/AuthNavbar';
+import DraggableList from '../../components/DraggableList';
+import ImageUploadWithCrop from '../../components/ImageUploadWithCrop';
+import PortfolioTemplates, { PortfolioTemplate } from '../../components/PortfolioTemplates';
+import { uploadService } from '../../services/uploadService';
 
 const EditPortfolio: React.FC = () => {
   const { user } = useAuth();
@@ -15,16 +19,26 @@ const EditPortfolio: React.FC = () => {
   const [autoSaving, setAutoSaving] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
   const [hasChanges, setHasChanges] = useState(false);
+  const [showTemplates, setShowTemplates] = useState(false);
+  const [showAvatarUpload, setShowAvatarUpload] = useState(false);
+  const [showBannerUpload, setShowBannerUpload] = useState(false);
   
   const [portfolio, setPortfolio] = useState<Partial<Portfolio>>({
     title: '',
     tagline: '',
     about: '',
+    avatar: '',
+    bannerImage: '',
     skills: [],
     projects: [],
     contact: {},
     socialLinks: {},
-    theme: { primaryColor: '#1e40af', secondaryColor: '#ffffff' },
+    theme: { 
+      primaryColor: '#1e40af', 
+      secondaryColor: '#ffffff',
+      accentColor: '#3b82f6',
+      fontFamily: 'Inter, sans-serif'
+    },
     isPublic: true
   });
 
@@ -145,6 +159,52 @@ const EditPortfolio: React.FC = () => {
     setHasChanges(true);
   };
 
+  // Template selection handler
+  const handleTemplateSelect = (template: PortfolioTemplate) => {
+    setPortfolio({
+      ...portfolio,
+      ...template.defaultContent,
+      theme: template.theme,
+    });
+    setHasChanges(true);
+    setShowTemplates(false);
+    showToast(`Template "${template.name}" applied successfully!`, 'success');
+  };
+
+  // Avatar upload handler
+  const handleAvatarUpload = async (croppedImage: File) => {
+    try {
+      showToast('Uploading avatar...', 'info');
+      const imageUrl = await uploadService.uploadImage(croppedImage);
+      setPortfolio({ ...portfolio, avatar: imageUrl });
+      setHasChanges(true);
+      showToast('Avatar uploaded successfully!', 'success');
+    } catch (error) {
+      console.error('Error uploading avatar:', error);
+      showToast('Failed to upload avatar', 'error');
+    }
+  };
+
+  // Banner upload handler
+  const handleBannerUpload = async (croppedImage: File) => {
+    try {
+      showToast('Uploading banner...', 'info');
+      const imageUrl = await uploadService.uploadImage(croppedImage);
+      setPortfolio({ ...portfolio, bannerImage: imageUrl });
+      setHasChanges(true);
+      showToast('Banner image uploaded successfully!', 'success');
+    } catch (error) {
+      console.error('Error uploading banner:', error);
+      showToast('Failed to upload banner', 'error');
+    }
+  };
+
+  // Skills reorder handler
+  const handleSkillsReorder = (reorderedSkills: Skill[]) => {
+    setPortfolio({ ...portfolio, skills: reorderedSkills });
+    setHasChanges(true);
+  };
+
   if (loading) {
     return (
       <>
@@ -208,6 +268,48 @@ const EditPortfolio: React.FC = () => {
                 </div>
               )}
             </div>
+          </div>
+        </div>
+
+        {/* Quick Actions for new features */}
+        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-900 rounded-xl shadow-md p-4 sm:p-6 mb-6">
+          <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4 flex items-center">
+            <svg className="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            Quick Actions
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <button
+              type="button"
+              onClick={() => setShowTemplates(true)}
+              className="flex items-center justify-center px-4 py-3 bg-white dark:bg-gray-700 border-2 border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-600 hover:border-blue-300 transition-all duration-200 font-medium"
+            >
+              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+              </svg>
+              Choose Template
+            </button>
+            <button
+              type="button"
+              onClick={() => setShowAvatarUpload(true)}
+              className="flex items-center justify-center px-4 py-3 bg-white dark:bg-gray-700 border-2 border-purple-200 dark:border-purple-800 text-purple-700 dark:text-purple-300 rounded-lg hover:bg-purple-50 dark:hover:bg-gray-600 hover:border-purple-300 transition-all duration-200 font-medium"
+            >
+              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+              Upload Avatar
+            </button>
+            <button
+              type="button"
+              onClick={() => setShowBannerUpload(true)}
+              className="flex items-center justify-center px-4 py-3 bg-white dark:bg-gray-700 border-2 border-green-200 dark:border-green-800 text-green-700 dark:text-green-300 rounded-lg hover:bg-green-50 dark:hover:bg-gray-600 hover:border-green-300 transition-all duration-200 font-medium"
+            >
+              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              Upload Banner
+            </button>
           </div>
         </div>
 
@@ -323,38 +425,51 @@ const EditPortfolio: React.FC = () => {
             </div>
 
             <div className="space-y-3">
-              {portfolio.skills?.map((skill, index) => (
-                <div key={index} className="flex flex-col sm:flex-row gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-100 hover:border-blue-200 transition-colors duration-200">
-                  <input
-                    type="text"
-                    value={skill.name}
-                    onChange={(e) => updateSkill(index, 'name', e.target.value)}
-                    placeholder="Skill name (e.g., React)"
-                    className="flex-1 px-4 py-2.5 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none"
-                  />
-                  <select
-                    value={skill.level}
-                    onChange={(e) => updateSkill(index, 'level', e.target.value)}
-                    className="w-full sm:w-40 px-4 py-2.5 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none"
-                  >
-                    <option value="Beginner">Beginner</option>
-                    <option value="Intermediate">Intermediate</option>
-                    <option value="Advanced">Advanced</option>
-                    <option value="Expert">Expert</option>
-                  </select>
-                  <button
-                    type="button"
-                    onClick={() => removeSkill(index)}
-                    className="w-full sm:w-auto px-4 py-2.5 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 transform hover:scale-105 transition-all duration-200 flex items-center justify-center"
-                  >
-                    <svg className="w-5 h-5 sm:mr-0 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
-                    <span className="sm:hidden">Remove</span>
-                  </button>
-                </div>
-              ))}
-              {(!portfolio.skills || portfolio.skills.length === 0) && (
+              {portfolio.skills && portfolio.skills.length > 0 ? (
+                <DraggableList
+                  items={portfolio.skills}
+                  onReorder={handleSkillsReorder}
+                  getId={(skill, index) => `skill-${index}`}
+                  renderItem={(skill, index) => (
+                    <div className="flex flex-col sm:flex-row gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-100 hover:border-blue-200 transition-colors duration-200">
+                      <input
+                        type="text"
+                        value={skill.name}
+                        onChange={(e) => updateSkill(index, 'name', e.target.value)}
+                        placeholder="Skill name (e.g., React)"
+                        className="flex-1 px-4 py-2.5 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none"
+                      />
+                      <input
+                        type="text"
+                        value={skill.category || ''}
+                        onChange={(e) => updateSkill(index, 'category', e.target.value)}
+                        placeholder="Category (e.g., Frontend)"
+                        className="w-full sm:w-40 px-4 py-2.5 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none"
+                      />
+                      <select
+                        value={skill.level}
+                        onChange={(e) => updateSkill(index, 'level', e.target.value)}
+                        className="w-full sm:w-40 px-4 py-2.5 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none"
+                      >
+                        <option value="Beginner">Beginner</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Advanced">Advanced</option>
+                        <option value="Expert">Expert</option>
+                      </select>
+                      <button
+                        type="button"
+                        onClick={() => removeSkill(index)}
+                        className="w-full sm:w-auto px-4 py-2.5 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 transform hover:scale-105 transition-all duration-200 flex items-center justify-center"
+                      >
+                        <svg className="w-5 h-5 sm:mr-0 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                        <span className="sm:hidden">Remove</span>
+                      </button>
+                    </div>
+                  )}
+                />
+              ) : (
                 <p className="text-gray-500 text-center py-8">No skills added yet. Click "Add Skill" to get started!</p>
               )}
             </div>
@@ -601,6 +716,32 @@ const EditPortfolio: React.FC = () => {
         </form>
       </div>
     </div>
+
+    {/* Modals */}
+    {showTemplates && (
+      <PortfolioTemplates
+        onSelectTemplate={handleTemplateSelect}
+        onClose={() => setShowTemplates(false)}
+      />
+    )}
+
+    {showAvatarUpload && (
+      <ImageUploadWithCrop
+        onImageCropped={handleAvatarUpload}
+        onClose={() => setShowAvatarUpload(false)}
+        aspectRatio={1}
+        title="Upload Profile Avatar"
+      />
+    )}
+
+    {showBannerUpload && (
+      <ImageUploadWithCrop
+        onImageCropped={handleBannerUpload}
+        onClose={() => setShowBannerUpload(false)}
+        aspectRatio={16 / 9}
+        title="Upload Banner Image"
+      />
+    )}
     </>
   );
 };
